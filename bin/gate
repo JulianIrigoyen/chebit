@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# Local gate. Stops at the first failing step.
+#   bin/gate          full gate
+#   bin/gate --fast   format and compile only
+set -uo pipefail
+cd "$(dirname "$0")/.."
+export MIX_ENV=test
+
+mode=${1:-full}
+
+step() {
+  local n=$1 name=$2
+  shift 2
+  echo "==> [$n] $name"
+  "$@" || { echo "GATE FAIL at step $n: $name"; exit 1; }
+}
+
+postgres_up() {
+  (exec 3<>/dev/tcp/127.0.0.1/54330) 2>/dev/null || { echo "Postgres is not up on 127.0.0.1:54330. run: mise run db"; return 1; }
+}
+
+tests() { postgres_up && bin/t; }
+
+step 1 "format" mix format --check-formatted
+step 2 "compile" mix compile --warnings-as-errors
+if [ "$mode" = "--fast" ]; then echo "FAST GATE PASS"; exit 0; fi
+[ "$mode" = "full" ] || { echo "usage: bin/gate [--fast]"; exit 2; }
+step 3 "unused deps" mix deps.unlock --check-unused
+step 4 "credo" mix credo --strict
+step 5 "dialyzer" mix dialyzer
+step 6 "tests" tests
+echo "GATE PASS $(date -u +%Y-%m-%dT%H:%M:%SZ)"

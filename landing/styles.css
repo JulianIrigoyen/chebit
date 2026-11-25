@@ -1,0 +1,828 @@
+/* Chebit landing. One file, no build step.
+   The look follows the Solidship tokens and the portfolio: Geist at weight 500,
+   one slate band, one steel-blue accent, hairlines and no shadows. */
+
+/* ---------- tokens ---------- */
+:root {
+  --canvas: #f5f6f8;
+  --surface: #ffffff;
+  --line: #e2e5ea;
+  --text: #0e1116;
+  --muted: #5a6472;
+  --tertiary: #8a93a0;
+  --accent: #3e6a8a;
+  --accent-hover: #335a76;
+  --soft: #e8eff5;
+  --on-accent: #ffffff;
+
+  /* The slate band stays slate in both themes. */
+  --rail: #121821;
+  --rail-text: #c9d1db;
+  --rail-heading: #e6eaf0;
+  --rail-muted: #7d8896;
+  --rail-line: #1f2833;
+  --rail-active: #1c2430;
+
+  /* The blue of the logo, sampled from the image. */
+  --brand-blue: #2e4a63;
+
+  --sans: "Geist", Arial, sans-serif;
+  --mono: "Geist Mono", ui-monospace, Menlo, monospace;
+}
+
+:root[data-theme="dark"] {
+  --canvas: #0c1016;
+  --surface: #121821;
+  --line: #28323f;
+  --text: #e6eaf0;
+  --muted: #a4afbd;
+  --tertiary: #7d8896;
+  --accent: #7fa6c4;
+  --accent-hover: #96b9d3;
+  --soft: #1c2430;
+  --on-accent: #0c1016;
+}
+
+/* ---------- base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--text);
+  font: 400 16px/1.65 var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+figure {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2 {
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(44px, 5.1vw, 72px);
+  line-height: 1.04;
+}
+
+h2 {
+  font-size: clamp(36px, 4.1vw, 58px);
+  line-height: 1.08;
+}
+
+h3 {
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.035em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--soft);
+}
+
+/* ---------- shared pieces ---------- */
+.shell {
+  width: min(1240px, calc(100% - 96px));
+  margin-inline: auto;
+}
+
+.section-space {
+  padding-block: 108px;
+}
+
+.band-surface {
+  background: var(--surface);
+  border-block: 1px solid var(--line);
+}
+
+.label {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.section-head {
+  display: grid;
+  gap: 20px;
+  max-width: 860px;
+}
+
+.section-lead {
+  color: var(--muted);
+  font-size: 23px;
+  line-height: 1.5;
+  letter-spacing: -0.035em;
+}
+
+.icon {
+  width: 17px;
+  height: 17px;
+}
+
+.skip-link {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 20;
+  padding: 10px 16px;
+  background: var(--surface);
+  color: var(--text);
+  transform: translateY(-150%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 12px 19px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  font: 500 13px/1.2 var(--sans);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.button-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.button-primary:hover {
+  background: var(--accent-hover);
+}
+
+.text-link {
+  padding-block: 8px;
+  border-bottom: 1px solid currentColor;
+  font-size: 13px;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+/* A one-colour icon that takes the colour of the text, in both themes.
+   The icon file is the mask. Sources: assets/logos/SOURCES.md */
+.chip-logo {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  background: currentColor;
+  -webkit-mask: center / contain no-repeat;
+  mask: center / contain no-repeat;
+}
+
+.logo-mercadopago {
+  -webkit-mask-image: url("assets/logos/mercadopago.svg");
+  mask-image: url("assets/logos/mercadopago.svg");
+}
+
+.logo-visa {
+  -webkit-mask-image: url("assets/logos/visa.svg");
+  mask-image: url("assets/logos/visa.svg");
+}
+
+.logo-mastercard {
+  -webkit-mask-image: url("assets/logos/mastercard.svg");
+  mask-image: url("assets/logos/mastercard.svg");
+}
+
+.logo-lightning {
+  -webkit-mask-image: url("assets/logos/lightning.svg");
+  mask-image: url("assets/logos/lightning.svg");
+}
+
+.logo-usdt {
+  -webkit-mask-image: url("assets/logos/usdt.svg");
+  mask-image: url("assets/logos/usdt.svg");
+}
+
+.logo-usdc {
+  -webkit-mask-image: url("assets/logos/usdc.svg");
+  mask-image: url("assets/logos/usdc.svg");
+}
+
+.logo-bank {
+  -webkit-mask-image: url("assets/logos/bank.svg");
+  mask-image: url("assets/logos/bank.svg");
+}
+
+.logo-wallet {
+  -webkit-mask-image: url("assets/logos/wallet.svg");
+  mask-image: url("assets/logos/wallet.svg");
+}
+
+.chip-next {
+  background: transparent;
+  color: var(--muted);
+}
+
+/* ---------- slate band: header and hero ---------- */
+.band-slate {
+  background: var(--rail);
+  color: var(--rail-text);
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  height: 104px;
+  border-bottom: 1px solid var(--rail-line);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--rail-heading);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.07em;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  background: var(--brand-blue);
+}
+
+.brand-mark img {
+  width: 23px;
+}
+
+.site-header nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.desktop-nav {
+  padding-block: 12px;
+  transition: color 0.15s;
+}
+
+.desktop-nav:hover,
+.band-slate .text-link:hover {
+  color: var(--rail-heading);
+}
+
+.nav-cta {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--rail-line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--rail-text);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.theme-toggle:hover {
+  background: var(--rail-active);
+}
+
+.theme-sun,
+:root[data-theme="dark"] .theme-moon {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-sun {
+  display: block;
+}
+
+/* On the slate band the accent keeps its light-theme blue in both themes. */
+.band-slate .button-primary {
+  background: #3e6a8a;
+  color: #ffffff;
+}
+
+.band-slate .button-primary:hover {
+  background: #4a7a9d;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.04fr 1fr;
+  align-items: center;
+  gap: 80px;
+  padding-top: 78px;
+  padding-bottom: 96px;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 27px;
+  color: var(--rail-muted);
+  font-size: 13px;
+}
+
+.signal-dot {
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #7fa6c4;
+}
+
+.hero h1 {
+  color: var(--rail-heading);
+}
+
+.hero h1 .quiet {
+  color: var(--rail-muted);
+}
+
+.hero-description {
+  max-width: 520px;
+  margin-top: 28px;
+  font-size: 20px;
+  line-height: 1.55;
+  letter-spacing: -0.035em;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 28px;
+  margin-top: 36px;
+}
+
+.hero-note {
+  margin-top: 28px;
+  color: var(--rail-muted);
+  font-size: 13px;
+}
+
+/* The logo tile and a sample ticket. */
+.hero-art {
+  position: relative;
+  padding: 0 0 44px 72px;
+}
+
+.mark-tile {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  background: var(--brand-blue);
+}
+
+.mark-tile img {
+  width: 66%;
+}
+
+.ticket {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 232px;
+  padding: 18px;
+  border: 1px solid var(--rail-line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: #0e1116;
+}
+
+.ticket-qr {
+  width: 100%;
+}
+
+.ticket-table {
+  margin-top: 14px;
+  color: #5a6472;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.ticket-amount {
+  margin-top: 2px;
+  font: 500 22px/1.3 var(--mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.025em;
+}
+
+.ticket-methods {
+  margin-top: 12px;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.ticket-methods li {
+  padding-block: 8px;
+  border-top: 1px solid #e2e5ea;
+}
+
+.ticket-methods li:last-child {
+  padding-bottom: 0;
+}
+
+/* ---------- rails ---------- */
+.rails {
+  border-bottom: 1px solid var(--line);
+}
+
+.rails-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 24px 48px;
+  padding-block: 28px;
+}
+
+.rails-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+}
+
+/* ---------- steps and cards: open columns with a rule on top ---------- */
+.steps,
+.cards {
+  display: grid;
+  gap: 38px;
+  margin-top: 64px;
+}
+
+.steps {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.cards-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.steps > li,
+.cards > li {
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.step-number {
+  display: block;
+  margin-bottom: 20px;
+  color: var(--tertiary);
+  font: 400 13px/1.3 var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.steps h3,
+.cards h3 {
+  margin-bottom: 10px;
+}
+
+.cards .label {
+  margin-bottom: 14px;
+}
+
+.steps p,
+.cards p:not(.label),
+.rows p {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ---------- two columns ---------- */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  align-items: start;
+  gap: 100px;
+}
+
+.split .chips {
+  margin-top: 8px;
+}
+
+.rows > li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  padding-block: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.rows > li:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.rows h3 {
+  margin-bottom: 6px;
+}
+
+.rows .label {
+  flex: 0 0 auto;
+  color: var(--tertiary);
+}
+
+/* ---------- code ---------- */
+.code {
+  overflow: hidden;
+  border: 1px solid var(--rail-line);
+  border-radius: 8px;
+  background: var(--rail);
+  color: var(--rail-heading);
+}
+
+.code pre {
+  margin: 0;
+  padding: 28px 28px 24px;
+  overflow-x: auto;
+  font: 400 13px/1.75 var(--mono);
+  letter-spacing: -0.025em;
+}
+
+.code figcaption {
+  padding: 14px 28px 16px;
+  border-top: 1px solid var(--rail-line);
+  color: var(--rail-muted);
+  font-size: 13px;
+}
+
+/* ---------- pilot ---------- */
+.pilot {
+  align-items: center;
+  padding: 64px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.pilot-form {
+  display: grid;
+  gap: 18px;
+}
+
+.pilot-form label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.pilot-form input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--surface);
+  color: var(--text);
+  font: 400 15px/1.4 var(--sans);
+}
+
+.pilot-form input::placeholder {
+  color: var(--tertiary);
+}
+
+.pilot-form input:focus-visible {
+  border-color: var(--accent);
+}
+
+.pilot-form .button {
+  margin-top: 6px;
+}
+
+.form-note {
+  min-height: 20px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ---------- footer ---------- */
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 32px;
+  min-height: 125px;
+  padding-block: 28px;
+}
+
+.site-footer .brand {
+  color: var(--text);
+  font-size: 21px;
+}
+
+.site-footer .brand-mark {
+  width: 26px;
+  height: 26px;
+}
+
+.site-footer .brand-mark img {
+  width: 19px;
+}
+
+.site-footer > p {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.site-footer nav {
+  display: flex;
+  gap: 24px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.site-footer nav a:hover {
+  color: var(--accent);
+}
+
+/* ---------- smaller screens ---------- */
+@media (max-width: 1040px) {
+  .shell {
+    width: calc(100% - 64px);
+  }
+
+  .hero {
+    gap: 48px;
+  }
+
+  .split {
+    gap: 60px;
+  }
+
+  .cards-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pilot {
+    padding: 44px;
+  }
+}
+
+@media (max-width: 760px) {
+  .shell {
+    width: calc(100% - 40px);
+  }
+
+  .section-space {
+    padding-block: 64px;
+  }
+
+  .site-header {
+    height: 80px;
+    gap: 14px;
+  }
+
+  .site-header nav {
+    display: none;
+  }
+
+  .brand {
+    font-size: 23px;
+    gap: 7px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 56px;
+    padding-top: 48px;
+    padding-bottom: 64px;
+  }
+
+  .hero-description {
+    font-size: 18px;
+  }
+
+  /* The ticket hangs below the tile, so the rider stays in view. */
+  .hero-art {
+    padding: 0 0 210px;
+  }
+
+  .ticket {
+    width: 184px;
+    padding: 14px;
+  }
+
+  .section-lead {
+    font-size: 19px;
+  }
+
+  .steps,
+  .cards,
+  .cards-4,
+  .split {
+    grid-template-columns: 1fr;
+  }
+
+  .steps,
+  .cards {
+    gap: 32px;
+    margin-top: 44px;
+  }
+
+  .split {
+    gap: 40px;
+  }
+
+  .rows > li {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .pilot {
+    padding: 28px 22px;
+  }
+
+  .site-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  * {
+    transition: none !important;
+  }
+}

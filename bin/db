@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Start the local Postgres container. Safe to run twice.
+set -euo pipefail
+
+name=chebit-db
+
+if docker ps --format '{{.Names}}' | grep -qx "$name"; then
+  echo "$name already running"
+elif docker ps -a --format '{{.Names}}' | grep -qx "$name"; then
+  docker start "$name" >/dev/null
+  echo "$name started"
+else
+  docker run -d --name "$name" \
+    -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres \
+    -p 127.0.0.1:54330:5432 postgres:17-alpine >/dev/null
+  echo "$name created"
+fi
+
+# Wait until Postgres accepts connections (up to 30 s).
+for _ in $(seq 30); do
+  docker exec "$name" pg_isready -U postgres -q && exit 0
+  sleep 1
+done
+echo "Postgres did not become ready in 30 s" >&2
+exit 1

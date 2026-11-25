@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Run tests, one run at a time for this repo. A second caller waits for the first.
+# Two runs at once share one test database, and the tests that TRUNCATE would break the other run.
+#   bin/t                         all tests
+#   bin/t test/chebit/x_test.exs  one file (add :LINE for one test)
+set -uo pipefail
+cd "$(dirname "$0")/.."
+mkdir -p tmp
+exec lockf -t 900 tmp/.test.lock mise exec -- mix test "$@"

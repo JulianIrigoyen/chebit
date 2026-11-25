@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chebit: el manual de ingeniería, práctica por práctica</title>
+  <meta name="description" content="Las prácticas de un sistema de pagos profesional y dónde vive cada una en Chebit: el módulo, la función, el test que la prueba y lo que falta. En inglés, como el código.">
+  <meta name="theme-color" content="#121821">
+  <link rel="icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="handbook.css">
+  <script>
+    // Apply the stored theme before the first paint.
+    try {
+      var storedTheme = localStorage.getItem("chebit-theme");
+      if (storedTheme === "dark" || storedTheme === "light") {
+        document.documentElement.dataset.theme = storedTheme;
+      }
+    } catch (error) {}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Ir al contenido</a>
+
+  <!-- The content of this page comes from docs/HANDBOOK.md, through handbook-data.js.
+       Change the handbook, then make the data file again. The command is at the top of
+       docs/HANDBOOK.md. The site chrome is in Spanish. The handbook is in English, as the code. -->
+
+  <div class="band-slate">
+    <header class="site-header shell">
+      <a class="brand" href="index.html" aria-label="Chebit, inicio">
+        <span class="brand-mark"><img src="assets/chebit-mark.svg" alt=""></span>
+        <span>chebit<span class="brand-period">.</span></span>
+      </a>
+      <nav aria-label="Secciones">
+        <a class="desktop-nav" href="index.html#comercios">Comercios</a>
+        <a class="desktop-nav" href="index.html#personas">Personas</a>
+        <a class="desktop-nav" href="index.html#desarrolladores">Desarrolladores</a>
+      </nav>
+      <div class="nav-cta">
+        <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Cambiar entre tema claro y oscuro">
+          <svg class="icon theme-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 13.2A8.5 8.5 0 1 1 10.8 3.5a6.6 6.6 0 0 0 9.7 9.7z"/></svg>
+          <svg class="icon theme-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.5 1.5M17.2 17.2l1.5 1.5M5.3 18.7l1.5-1.5M17.2 6.8l1.5-1.5"/></svg>
+        </button>
+        <a class="button button-primary" href="index.html#piloto">Sumate al piloto</a>
+      </div>
+    </header>
+
+    <section class="hb-hero shell" id="contenido" lang="en">
+      <p class="eyebrow"><span class="signal-dot"></span>Engineering handbook</p>
+      <h1>How Chebit is built, <span class="quiet">practice by practice.</span></h1>
+      <p class="hero-description">Each practice of a professional payment system: the rule, the failure that it prevents, the module and function that implement it, the test that proves it, and the gaps that remain.</p>
+      <ul class="hb-legend">
+        <li><i class="coin done"></i><strong data-count="done">0</strong> built and tested</li>
+        <li><i class="coin partial"></i><strong data-count="partial">0</strong> partial</li>
+        <li><i class="coin notyet"></i><strong data-count="notyet">0</strong> not built yet</li>
+      </ul>
+      <div class="hb-coins" id="coins" aria-label="One coin for each practice. A full coin is done, a half coin is partial, an empty coin is not built yet."></div>
+      <p class="hero-note" id="state"></p>
+    </section>
+  </div>
+
+  <main lang="en">
+    <p class="hb-missing shell" id="missing" hidden>The handbook data did not load. Make <code>handbook-data.js</code> again with the command at the top of <code>docs/HANDBOOK.md</code>.</p>
+
+    <!-- Practices -->
+    <section class="section-space" id="practices">
+      <div class="shell">
+        <div class="section-head">
+          <p class="label">The practices</p>
+          <h2>Where each rule lives in the code.</h2>
+          <p class="section-lead">Open a practice to read it. The same text is in <code>docs/HANDBOOK.md</code>, and an agent reads it through the MCP server.</p>
+        </div>
+
+        <div class="hb-tools">
+          <div class="hb-filters" role="group" aria-label="Show practices by status">
+            <button type="button" data-filter="all" aria-pressed="true">All <span class="count" data-count="all">0</span></button>
+            <button type="button" data-filter="done" aria-pressed="false"><i class="coin done"></i>Done <span class="count" data-count="done">0</span></button>
+            <button type="button" data-filter="partial" aria-pressed="false"><i class="coin partial"></i>Partial <span class="count" data-count="partial">0</span></button>
+            <button type="button" data-filter="notyet" aria-pressed="false"><i class="coin notyet"></i>Not yet <span class="count" data-count="notyet">0</span></button>
+          </div>
+          <input class="hb-search" id="search" type="search" placeholder="Search, for example webhook or ledger" aria-label="Search the practices">
+        </div>
+
+        <div id="parts"></div>
+        <p class="hb-empty" id="empty" hidden>No practice matches. Clear the search or choose All.</p>
+      </div>
+    </section>
+
+    <!-- Review findings -->
+    <section class="band-surface section-space" id="findings">
+      <div class="shell">
+        <div class="section-head">
+          <p class="label">Review</p>
+          <h2>What a review found.</h2>
+          <p class="section-lead" id="findings-intro"></p>
+        </div>
+        <div class="hb-table-wrap" id="findings-table"></div>
+        <p class="hb-after" id="findings-after"></p>
+      </div>
+    </section>
+
+    <!-- Agents -->
+    <section class="section-space" id="agents">
+      <div class="shell split">
+        <div class="section-head">
+          <p class="label">For agents</p>
+          <h2>Connect an agent.</h2>
+          <p class="section-lead">An MCP server gives an AI agent the public payment API and this handbook. It is one Elixir script with no dependency.</p>
+          <ul class="chips">
+            <li class="chip"><code>create_payment_intent</code></li>
+            <li class="chip"><code>confirm_payment_intent</code></li>
+            <li class="chip"><code>get_payment_intent</code></li>
+            <li class="chip"><code>list_balances</code></li>
+            <li class="chip"><code>handbook_list</code></li>
+            <li class="chip"><code>handbook_read</code></li>
+          </ul>
+        </div>
+        <div>
+          <ul class="rows">
+            <li>
+              <div>
+                <h3>Integers only</h3>
+                <p>An amount is a JSON integer in the smallest unit of its currency. A float is refused.</p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h3>One effect</h3>
+                <p>Each write sends an idempotency key. The tool returns the key, and a retry with that key makes no second effect.</p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h3>Unknown is not failed</h3>
+                <p>After a timeout the answer says that the outcome is unknown, and it names the key to send again.</p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h3>The same door</h3>
+                <p>The agent uses the public API with the merchant's key. The server never prints the key.</p>
+              </div>
+            </li>
+          </ul>
+          <figure class="code hb-commands">
+            <pre><code id="commands"></code></pre>
+            <figcaption>
+              <span>It runs on your machine: <code>mcp/chebit_mcp.exs</code>. The remote server is a later phase.</span>
+              <button class="hb-copy" type="button" id="copy">Copy commands</button>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer shell">
+    <a class="brand" href="index.html" aria-label="Chebit, inicio">
+      <span class="brand-mark"><img src="assets/chebit-mark.svg" alt=""></span>
+      <span>chebit<span class="brand-period">.</span></span>
+    </a>
+    <p>Chebit es un producto en desarrollo. Todavía no procesa pagos.</p>
+    <nav aria-label="Pie">
+      <a href="index.html#comercios">Comercios</a>
+      <a href="index.html#personas">Personas</a>
+      <a href="index.html#desarrolladores">Desarrolladores</a>
+      <a href="handbook.html" aria-current="page">Manual</a>
+    </nav>
+  </footer>
+
+  <script src="handbook-data.js"></script>
+  <script src="handbook.js"></script>
+</body>
+</html>

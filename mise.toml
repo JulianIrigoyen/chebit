@@ -1,0 +1,39 @@
+[settings]
+# Homebrew's Erlang sits first on PATH; this makes the pinned tools win.
+activate_aggressive = true
+
+[tools]
+erlang = "27.3.4.19"
+elixir = "1.18.6-otp-27"
+
+[tasks.setup]
+description = "Start Postgres, fetch deps, create and migrate the dev database"
+run = ["bin/db", "mix setup"]
+
+[tasks.db]
+description = "Start the Postgres container (safe to run twice)"
+run = "bin/db"
+
+[tasks.gate]
+description = "Run the full local gate"
+run = "bin/gate"
+
+[tasks.test]
+description = "Run the tests (one run at a time)"
+run = "bin/t"
+
+[tasks.server]
+description = "Start the Phoenix server on port 4000"
+run = "mix phx.server"
+
+[tasks.demo]
+description = "Run three payments end to end against the simulated provider, in a fresh chebit_demo database"
+env = { CHEBIT_DB = "chebit_demo" }
+run = [
+  "bin/db",
+  "mix deps.get",
+  "mix ecto.drop --quiet",
+  "mix ecto.create --quiet",
+  "mix ecto.migrate --quiet",
+  "mix run priv/demo.exs",
+]

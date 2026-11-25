@@ -1,0 +1,40 @@
+{
+  "redirects": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.chebit.com.ar" }],
+      "destination": "https://chebit.com.ar/",
+      "permanent": false
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.chebit.com.ar" }],
+      "destination": "https://chebit.com.ar/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "chebit.ar" }],
+      "destination": "https://chebit.com.ar/",
+      "permanent": false
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "chebit.ar" }],
+      "destination": "https://chebit.com.ar/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.chebit.ar" }],
+      "destination": "https://chebit.com.ar/",
+      "permanent": false
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.chebit.ar" }],
+      "destination": "https://chebit.com.ar/:path*",
+      "permanent": false
+    }
+  ]
+}

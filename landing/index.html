@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chebit: cobrá en pesos, dólares o Bitcoin con un solo QR</title>
+  <meta name="description" content="Una pasarela de pagos argentina. Tu cliente paga con billetera, tarjeta, transferencia, Lightning o stablecoins. Vos recibís pesos y la factura sale sola. Producto en desarrollo.">
+  <meta name="theme-color" content="#121821">
+  <link rel="icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    // Apply the stored theme before the first paint.
+    try {
+      var storedTheme = localStorage.getItem("chebit-theme");
+      if (storedTheme === "dark" || storedTheme === "light") {
+        document.documentElement.dataset.theme = storedTheme;
+      }
+    } catch (error) {}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Ir al contenido</a>
+
+  <!-- The one slate band: header and hero -->
+  <div class="band-slate">
+    <header class="site-header shell">
+      <a class="brand" href="#" aria-label="Chebit, inicio">
+        <span class="brand-mark"><img src="assets/chebit-mark.svg" alt=""></span>
+        <span>chebit<span class="brand-period">.</span></span>
+      </a>
+      <nav aria-label="Secciones">
+        <a class="desktop-nav" href="#comercios">Comercios</a>
+        <a class="desktop-nav" href="#personas">Personas</a>
+        <a class="desktop-nav" href="#desarrolladores">Desarrolladores</a>
+      </nav>
+      <div class="nav-cta">
+        <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Cambiar entre tema claro y oscuro">
+          <svg class="icon theme-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 13.2A8.5 8.5 0 1 1 10.8 3.5a6.6 6.6 0 0 0 9.7 9.7z"/></svg>
+          <svg class="icon theme-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.5 1.5M17.2 17.2l1.5 1.5M5.3 18.7l1.5-1.5M17.2 6.8l1.5-1.5"/></svg>
+        </button>
+        <a class="button button-primary" href="#piloto">Sumate al piloto</a>
+      </div>
+    </header>
+
+    <section class="hero shell" id="contenido">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="signal-dot"></span>Pasarela de pagos de Argentina</p>
+        <h1>Cobrá en pesos, dólares o Bitcoin. <span class="quiet">Con un solo QR.</span></h1>
+        <p class="hero-description">Tu cliente paga con lo que tiene: billetera, tarjeta, transferencia, Lightning o stablecoins. Vos recibís pesos y la factura sale sola.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#piloto">Quiero ser comercio piloto</a>
+          <a class="text-link" href="#desarrolladores">Ver la API</a>
+        </div>
+        <p class="hero-note">Producto en desarrollo. Empezamos con gastronomía.</p>
+      </div>
+
+      <div class="hero-art" aria-hidden="true">
+        <div class="mark-tile"><img src="assets/chebit-mark.svg" alt=""></div>
+        <div class="ticket">
+          <img class="ticket-qr" src="assets/qr-illustration.svg" alt="">
+          <p class="ticket-table">Mesa 4</p>
+          <p class="ticket-amount">$ 18.500,00</p>
+          <ul class="ticket-methods">
+            <li>Mercado Pago o MODO</li>
+            <li>Tarjeta o transferencia</li>
+            <li>Lightning, USDT o USDC</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <main>
+    <!-- Rails -->
+    <section class="rails" aria-label="Medios de pago">
+      <div class="shell rails-row">
+        <div class="rails-group">
+          <p class="label">Un QR, todos los medios</p>
+          <!-- Icon files and their licences: assets/logos/SOURCES.md -->
+          <ul class="chips">
+            <li class="chip"><span class="chip-logo logo-mercadopago" aria-hidden="true"></span>Mercado Pago</li>
+            <li class="chip"><span class="chip-logo logo-wallet" aria-hidden="true"></span>MODO</li>
+            <li class="chip"><span class="chip-logo logo-bank" aria-hidden="true"></span>Transferencias 3.0</li>
+            <li class="chip"><span class="chip-logo logo-visa" aria-hidden="true"></span>Visa</li>
+            <li class="chip"><span class="chip-logo logo-mastercard" aria-hidden="true"></span>Mastercard</li>
+            <li class="chip"><span class="chip-logo logo-lightning" aria-hidden="true"></span>Lightning</li>
+            <li class="chip"><span class="chip-logo logo-usdt" aria-hidden="true"></span>USDT</li>
+            <li class="chip"><span class="chip-logo logo-usdc" aria-hidden="true"></span>USDC</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="band-surface section-space" id="como-funciona">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Tres pasos. Un QR.</h2>
+        </div>
+        <ol class="steps">
+          <li>
+            <span class="step-number">01</span>
+            <h3>Mostrás el QR</h3>
+            <p>Uno solo, en la mesa o en la caja. Sirve para todos los medios de pago.</p>
+          </li>
+          <li>
+            <span class="step-number">02</span>
+            <h3>El cliente elige cómo pagar</h3>
+            <p>Billetera, tarjeta, transferencia, Lightning o stablecoins. Paga con lo que tiene.</p>
+          </li>
+          <li>
+            <span class="step-number">03</span>
+            <h3>Recibís pesos</h3>
+            <p>Con la factura electrónica en ARCA y el cobro conciliado.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Merchants -->
+    <section class="section-space" id="comercios">
+      <div class="shell">
+        <div class="section-head">
+          <p class="label">Para comercios</p>
+          <h2>Todo lo que cobrás, en un solo lugar.</h2>
+          <p class="section-lead">Empezamos por gastronomía: restaurantes, bares y cafés.</p>
+        </div>
+        <ul class="cards cards-4">
+          <li>
+            <p class="label">Cobro</p>
+            <h3>Un QR para todos</h3>
+            <p>Billeteras, tarjetas, transferencias, Lightning y stablecoins en el mismo código.</p>
+          </li>
+          <li>
+            <p class="label">Liquidación</p>
+            <h3>Recibís pesos</h3>
+            <p>Aunque tu cliente pague en Bitcoin. La conversión la hace un partner.</p>
+          </li>
+          <li>
+            <p class="label">Facturación</p>
+            <h3>La factura sale sola</h3>
+            <p>Factura electrónica en ARCA por cada venta.</p>
+          </li>
+          <li>
+            <p class="label">Conciliación</p>
+            <h3>Todo cuadra</h3>
+            <p>Un panel con lo cobrado en cada medio, cuadrado contra el ledger.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- People -->
+    <section class="band-surface section-space" id="personas">
+      <div class="shell split">
+        <div class="section-head">
+          <p class="label">Para personas</p>
+          <h2>Pagá con lo que tengas.</h2>
+          <p class="section-lead">Pesos, dólares o Bitcoin. En el comercio de siempre.</p>
+        </div>
+        <ul class="rows">
+          <li>
+            <div>
+              <h3>Vuelto en sats</h3>
+              <p>Una parte de cada compra vuelve en satoshis.</p>
+            </div>
+            <span class="label">Próximamente</span>
+          </li>
+          <li>
+            <div>
+              <h3>Redondeo</h3>
+              <p>Cada pago se redondea y la diferencia se ahorra en Bitcoin.</p>
+            </div>
+            <span class="label">Próximamente</span>
+          </li>
+          <li>
+            <div>
+              <h3>Mapa de comercios</h3>
+              <p>Dónde pagar con Bitcoin cerca tuyo.</p>
+            </div>
+            <span class="label">Próximamente</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Developers -->
+    <section class="section-space" id="desarrolladores">
+      <div class="shell split">
+        <div class="section-head">
+          <p class="label">Para desarrolladores y agentes</p>
+          <h2>Una API. Un contrato.</h2>
+          <p class="section-lead">Rieles locales, Lightning y stablecoins detrás de la misma interfaz.</p>
+          <ul class="chips">
+            <li class="chip chip-next">API pública</li>
+            <li class="chip chip-next">SDKs</li>
+            <li class="chip chip-next">Servidor MCP</li>
+          </ul>
+          <p><a class="text-link" href="handbook.html#agents">Conectar un agente al servidor MCP local</a></p>
+        </div>
+        <figure class="code">
+<pre><code>POST /v1/payment_intents
+Authorization: Bearer chebit_sk_...
+Idempotency-Key: order-1
+
+{
+  "amount_minor": 1850000,
+  "currency": "ARS",
+  "description": "Mesa 4"
+}</code></pre>
+          <figcaption>Hoy corre contra un proveedor simulado. Todavía no mueve plata real.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- How it is built -->
+    <section class="band-surface section-space" id="como-esta-hecho">
+      <div class="shell">
+        <div class="section-head">
+          <p class="label">Cómo está hecho</p>
+          <h2>Hecho para que la plata cierre.</h2>
+          <p><a class="text-link" href="handbook.html">Ver cada práctica, con el código y los tests (en inglés)</a></p>
+          <p><a class="text-link" href="https://github.com/JulianIrigoyen/chebit">El código es abierto: verlo en GitHub</a></p>
+        </div>
+        <ul class="cards cards-4">
+          <li>
+            <p class="label">Ledger</p>
+            <h3>Doble entrada</h3>
+            <p>Cada transacción suma cero. Nada se edita: una corrección es un asiento nuevo.</p>
+          </li>
+          <li>
+            <p class="label">Idempotencia</p>
+            <h3>Se cobra una vez</h3>
+            <p>Un reintento con la misma key recibe la primera respuesta.</p>
+          </li>
+          <li>
+            <p class="label">Plata</p>
+            <h3>Enteros, nunca floats</h3>
+            <p>Centavos y satoshis como números enteros.</p>
+          </li>
+          <li>
+            <p class="label">Conciliación</p>
+            <h3>Contra el mundo real</h3>
+            <p>Jobs que cuadran el ledger contra cada proveedor, el banco y la blockchain.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Pilot -->
+    <section class="section-space" id="piloto">
+      <div class="shell">
+        <div class="pilot split">
+          <div class="section-head">
+            <p class="label">Piloto</p>
+            <h2>Empezamos con gastronomía en Argentina.</h2>
+            <p class="section-lead">Buscamos 3 o 4 restaurantes para el piloto. Contanos de tu comercio.</p>
+          </div>
+          <!-- data-whatsapp: the number that receives the request, digits only. Empty means the form is not connected.
+               This is the number that the portfolio site already publishes. -->
+          <form class="pilot-form" id="pilot-form" data-whatsapp="5491136639160" novalidate>
+            <label>
+              <span>Nombre del comercio</span>
+              <input type="text" name="comercio" placeholder="Ej.: Bar La Esquina" autocomplete="organization" required>
+            </label>
+            <label>
+              <span>Ciudad</span>
+              <input type="text" name="ciudad" placeholder="Ej.: Mendoza" autocomplete="address-level2" required>
+            </label>
+            <label>
+              <span>Email o WhatsApp</span>
+              <input type="text" name="contacto" placeholder="Ej.: hola@tucomercio.com" required>
+            </label>
+            <button class="button button-primary" type="submit">Quiero ser comercio piloto</button>
+            <p class="form-note" id="form-note" role="status"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer shell">
+    <a class="brand" href="#" aria-label="Chebit, inicio">
+      <span class="brand-mark"><img src="assets/chebit-mark.svg" alt=""></span>
+      <span>chebit<span class="brand-period">.</span></span>
+    </a>
+    <p>Chebit es un producto en desarrollo. Todavía no procesa pagos.</p>
+    <nav aria-label="Pie">
+      <a href="#comercios">Comercios</a>
+      <a href="#personas">Personas</a>
+      <a href="#desarrolladores">Desarrolladores</a>
+      <a href="handbook.html">Manual</a>
+      <a href="https://github.com/JulianIrigoyen/chebit">GitHub</a>
+    </nav>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
